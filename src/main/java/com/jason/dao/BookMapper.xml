@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空間應該是對應接口的包名+接口名-->
+<mapper namespace="com.jason.dao.IBookDao"><!--這裡要隨DAO而改-->
+    <!--
+        根據id查詢得到一個book物件
+     -->
+    <select id="getAllBooks" resultType="Book">
+        select book_Id, book_title, book_typename, book_price, book_state from www_book
+    </select>
+    <select id="getBookId" parameterType="int" resultType="Book">
+        select book_Id, book_title, book_typename, book_price, book_state from www_book where book_Id=#{book_Id}
+    </select>
+    <insert id="add" parameterType="Book">
+        insert into www_book (book_Id, book_title, book_typename, book_price, book_state) values (NULL,#{book_title}, #{book_typename}, #{book_price}, #{book_state})
+    </insert>
+    <update id="update" parameterType="Book">
+        update www_book set book_title=#{book_title},book_typename=#{book_typename},book_price=#{book_price},book_state=#{book_state} where book_Id=#{book_Id}
+    </update>
+    <delete id="delete">
+        delete from www_book where book_Id=#{id}
+    </delete>
+</mapper>

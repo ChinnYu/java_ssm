@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+    <!--1 引入屬性檔，在配置中占位元使用 (資料庫訊息)-->
+    <context:property-placeholder location="classpath*:db.properties" /><!--這裡要隨專案而改-->
+
+    <!--2 配置C3P0資料來源 -->
+    <bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <!--驅動類名 -->
+        <property name="driverClass" value="${Mysql.driver}" />
+        <!-- url -->
+        <property name="jdbcUrl" value="${Mysql.url}" />
+        <!-- 用戶名 -->
+        <property name="user" value="${Mysql.username}" />
+        <!-- 密碼 -->
+        <property name="password" value="${Mysql.password}" />
+        <!-- 當連接池中的連接耗盡的時候c3p0一次同時獲取的連接數 -->
+        <property name="acquireIncrement" value="${Mysql.acquireIncrement}"></property>
+        <!-- 初始連接池大小 -->
+        <property name="initialPoolSize" value="${Mysql.initialPoolSize}"></property>
+        <!-- 連接池中連接最小個數 -->
+        <property name="minPoolSize" value="${Mysql.minPoolSize}"></property>
+        <!-- 連接池中連接最大個數 -->
+        <property name="maxPoolSize" value="${Mysql.maxPoolSize}"></property>
+    </bean>
+
+    <!--3 會話工廠bean sqlSessionFactoryBean -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 設定檔路徑 -->
+        <property name="configLocation" value="classpath:MyBatisCfg.xml"></property><!--這裡要隨專案而改-->
+        <!-- 資料來源 -->
+        <property name="dataSource" ref="datasource"></property>
+        <!-- sql映射檔路徑 -->
+        <property name="mapperLocations" value="classpath*:com/jason/dao/*Mapper.xml"></property><!--這裡要隨專案而改-->
+    </bean>
+
+    <!--4 自動掃描物件關係映射 --><!--這裡是自動映射的-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--指定會話工廠，如果當前上下文中只定義了一個則該屬性可省去 -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+        <!-- 指定要自動掃描介面的基礎包，實現介面 -->
+        <property name="basePackage" value="com.jason.dao"></property><!--這裡要隨專案而改-->
+    </bean>
+
+    <!--5 聲明式事務管理 -->
+    <!--定義事物管理器，由spring管理事務 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource"></property>
+    </bean>
+    <!--支援注解驅動的事務管理，指定事務管理器 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <!--6 容器自動掃描IOC元件 -->
+    <context:component-scan base-package="com.jason"></context:component-scan><!--這裡要隨專案而改-->
+
+    <!--7 aspectj支援自動代理實現AOP功能 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+
+</beans>

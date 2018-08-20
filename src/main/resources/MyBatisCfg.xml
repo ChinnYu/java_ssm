@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="db.properties"></properties>
+    <settings>
+        <!--指定mybatis使用日誌元件 -->
+        <setting name="logImpl" value="LOG4J2" />
+        <!--開啟全域的二級緩存 -->
+        <setting name="cacheEnabled" value="false" />
+        <!--開啟延時載入，如果有關聯關係，則預設不會獲取資料
+        延遲載入的全域開關。當開啟時，所有關聯物件都會延遲載入。
+        特定關聯關係中可通過設置fetchType屬性來覆蓋該項的開關狀態。
+        在association中指定fetchType="eager(立即)" 或者 lazy(延遲)
+        默認：false
+        -->
+        <setting name="lazyLoadingEnabled" value="true" />
+        <!--true時，對任意延遲屬性的調用會使帶有延遲載入屬性的物件完整載入；
+          false，每種屬性將會按需載入。
+          默認為：true-->
+        <setting name="aggressiveLazyLoading" value="false" />
+    </settings>
+    <typeAliases><!--這裡要隨專案而改-->
+        <package name="com.jason.model" />
+    </typeAliases>
+</configuration>

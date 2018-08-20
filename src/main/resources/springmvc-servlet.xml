@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+    <!-- 自動掃描包，實現支援注解的IOC -->
+    <context:component-scan base-package="com.jason" />
+
+    <!-- Spring MVC不處理靜態資源 -->
+    <mvc:default-servlet-handler />
+
+    <!-- 支援mvc注解驅動 -->
+    <mvc:annotation-driven enable-matrix-variables="true" />
+
+    <!-- 配置映射媒體類型的策略 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="removeSemicolonContent" value="false" />
+    </bean>
+
+
+    <!-- 內部視圖解析器，JSP與JSTL範本 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          id="internalResourceViewResolver">
+        <!--指定視圖渲染類 -->
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView" />
+        <!--自動添加到路徑中的首碼 -->
+        <property name="prefix" value="/WEB-INF/views/" />
+        <!--自動添加到路徑中的尾碼 -->
+        <property name="suffix" value=".jsp" />
+        <!--設置所有視圖的內容類別型，如果視圖本身設置內容類別型視圖類可以忽略 -->
+        <property name="contentType" value="text/html;charset=UTF-8" />
+        <!-- 優先順序，越小越前 -->
+        <property name="order" value="1" />
+    </bean>
+
+    <!--文件上傳解析器 -->
+    <!--Spring MVC預設不能識別multipart格式的檔內容 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+    </bean>
+
+</beans>

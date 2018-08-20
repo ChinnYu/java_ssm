@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <!--SpringMVC 配置-->
+    <listener>
+        <description>Spring容器載入監聽器</description>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <description>設置Spring載入時的設定檔位置，預設位置在WEB-INF/lib目錄下</description>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath*:applicationContext.xml</param-value>
+    </context-param>
+
+    <!--Spring MVC 前置Servlet，中心控制器 -->
+    <servlet>
+        <servlet-name>springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <!--Spring MVC設定檔路徑 -->
+            <param-value>classpath*:springmvc-servlet.xml</param-value><!--這裡要隨專案而改-->
+        </init-param>
+        <!-- 啟動動優先順序，越小越早載入 -->
+        <load-on-startup>1</load-on-startup>
+        <!--Servlet3.0以上檔上傳配置 -->
+        <multipart-config>
+            <!--上傳檔的最大限制5MB -->
+            <max-file-size>5242880</max-file-size>
+            <!--請求的最大限制20MB -->
+            <max-request-size>20971520</max-request-size>
+            <!--當檔的大小超過臨界值時將寫入磁片 -->
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <!-- Servlet訪問的路徑映射，所有的訪問都必須經過調度用的前置控制品 -->
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!--編碼篩檢程式 -->
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <!-- 路徑映射 -->
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+</web-app>
