@@ -44,7 +44,7 @@
         <!-- 資料來源 -->
         <property name="dataSource" ref="datasource"></property>
         <!-- sql映射檔路徑 -->
-        <property name="mapperLocations" value="classpath*:com/jason/dao/*Mapper.xml"></property><!--這裡要隨專案而改-->
+        <!--<property name="mapperLocations" value="classpath*:com/jason/dao/*Mapper.xml"></property>&lt;!&ndash;這裡要隨專案而改&ndash;&gt;-->
     </bean>
 
     <!--4 自動掃描物件關係映射 --><!--這裡是自動映射的-->
