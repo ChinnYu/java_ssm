@@ -38,4 +38,12 @@ public class BookService implements IBookService{
     public int delete(int id) {
         return bookDao.delete(id);
     }
+    //多刪除,重載
+    public int delete(int[] ids) {
+        int rows=0;
+        for (Integer id:ids) {//遍歷所有的編號
+            rows+=delete(id);//調用單刪除功能,累計刪除行數
+        }
+        return rows;
+    }
 }

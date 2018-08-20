@@ -15,4 +15,6 @@ public interface IBookService {
     public int edit(Book entity);
     /**刪除*/
     public int delete(int id);
+
+    public int delete(int[] ids);
 }
