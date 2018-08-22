@@ -3,6 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <welcome-file-list><!--這裡是改成首頁從哪頁開始(方法一)-->
+        <welcome-file>book/list</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
     <!--SpringMVC 配置-->
     <listener>
         <description>Spring容器載入監聽器</description>
@@ -36,6 +40,10 @@
         </multipart-config>
     </servlet>
     <!-- Servlet訪問的路徑映射，所有的訪問都必須經過調度用的前置控制品 -->
+    <servlet-mapping><!--這裡是改成首頁從哪頁開始(方法一)-->
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>/book/list</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>
         <url-pattern>/</url-pattern>

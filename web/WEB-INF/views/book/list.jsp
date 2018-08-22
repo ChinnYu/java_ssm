@@ -33,11 +33,15 @@
                     <td>${book.book_typename}</td>
                     <td>${book.book_price}</td>
                     <td>${book.book_state}</td>
-                    <td><a href="del/${book.book_Id}" class="del">刪除</a> | <a href="#">編輯</a></td>
+                    <td><a href="del/${book.book_Id}" class="del">刪除</a> | <a href="<c:url value="/book/edit?id=${book.book_Id}"></c:url>">編輯</a></td>
                 </tr>
             </c:forEach>
         </table>
         <input type="submit" value="刪除選擇項" class="del"/>
+        <p>
+            <input type="submit" value="刪除選擇項" class="del"/>
+            <input type="button" value="添加" onclick="location.href='<c:url value="/book/add"></c:url>'" />
+        </p>
     </form>
 
     <p>
